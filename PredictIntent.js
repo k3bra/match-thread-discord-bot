@@ -72,6 +72,53 @@ class PredictIntent {
                 name: 'Porto'
             },
             {
+                id: 65,
+                name: 'City'
+            },
+            {
+                id: 64,
+                name: 'Liverpool'
+            },
+            {
+                id: 66,
+                name: 'Manchester United'
+            },
+            {
+                id: 57,
+                name: 'Arsenal'
+            },
+            {
+                id: 76,
+                name: 'Wolverhampton'
+            },
+            {
+                id: 86,
+                name: 'Madrid'
+            },
+            {
+                id: 86,
+                name: 'Real'
+            },
+            {
+                id: 86,
+                name: 'Real Madrid'
+            },
+            {
+                id: 81,
+                name: 'Barcelona'
+            },            {
+                id: 78,
+                name: 'Atlético'
+            },
+            {
+                id: 73,
+                name: 'Manchester United'
+            },
+            {
+                id: 61,
+                name: 'Chelsea'
+            },
+            {
                 id: 503,
                 name: 'FCP'
             },
@@ -98,6 +145,26 @@ class PredictIntent {
             {
                 id: 5613,
                 name: 'Braga'
+            },
+            {
+                id: 109,
+                name: 'Juventus'
+            },
+            {
+                id: 113,
+                name: 'Napoles'
+            },
+            {
+                id: 98,
+                name: 'Milan'
+            },
+            {
+                id: 108,
+                name: 'Inter'
+            },
+            {
+                id: 100,
+                name: 'Roma'
             },
         ];
 
