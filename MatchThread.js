@@ -8,7 +8,6 @@ class MatchThread {
         this.axiosInstance = bootstrap.axiosInstance;
         this.client = bootstrap.client;
         this.cache = bootstrap.myCache;
-
     }
 
     send() {

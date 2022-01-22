@@ -13,6 +13,7 @@
     "@discordjs/rest": "^0.2.0-canary.0",
     "@google-cloud/dialogflow": "^4.6.0",
     "axios": "^0.24.0",
+    "child_process": "^1.0.2",
     "cron": "^1.8.2",
     "dayjs": "^1.10.7",
     "dialogflow": "^1.2.0",
@@ -22,6 +23,7 @@
     "jsdom": "^19.0.0",
     "node-cache": "^5.1.2",
     "npmlog": "^6.0.0",
+    "string-similarity": "^4.0.4",
     "uuid": "^8.3.2"
   }
 }

@@ -9,7 +9,6 @@ const CronJob = require('cron').CronJob;
 
 client.login(process.env.TOKEN)
 
-
 client.on("message", msg => {
     if (msg.author.bot === false && msg.content.startsWith("k3brot")) {
         let predictIntent = new PredictIntent();
@@ -46,8 +45,8 @@ let jobNewsPaper = new CronJob(
     true
 );
 
-matchThread.start();
+//matchThread.start();
 
-jobNewsPaper.start();
+//jobNewsPaper.start();
 
 
