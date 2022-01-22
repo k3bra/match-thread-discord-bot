@@ -59,7 +59,7 @@ class PredictIntent {
             return this.getNextTeamGame(response);
         }
 
-        return 'Ups não percebi um caralho.';
+        return response;
 
     }
 
@@ -106,7 +106,8 @@ class PredictIntent {
             {
                 id: 81,
                 name: 'Barcelona'
-            },            {
+            },
+            {
                 id: 78,
                 name: 'Atlético'
             },
