@@ -51,7 +51,9 @@ class PredictIntent {
 
 
     getPhraseByIntent(intent, response, score) {
-        if (!response || score <= 0.7) {
+
+
+        if (!response || score <= 0.6) {
             return 'Ups não percebi um caralho.';
         }
 
