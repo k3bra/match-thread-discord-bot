@@ -57,8 +57,8 @@ let jobNewsPaper = new CronJob(
     true
 );
 
-//matchThread.start();
+matchThread.start();
 
-//jobNewsPaper.start();
+jobNewsPaper.start();
 
 

@@ -27,6 +27,7 @@ class MatchThread {
     }
 
     send() {
+
         this.fetchMatches().then((response) => {
             try {
                 if ('matches' in response) {
@@ -44,18 +45,20 @@ class MatchThread {
             let today = this.dayjs(new Date()).format('YYYY-MM-DD');
             const resp = await footballDataApi.fetchMatches(today, today);
 
-            if (resp.data === undefined) {
+            if (resp === undefined) {
                 return [];
             }
-
-            return resp.data;
+            return resp;
         } catch (err) {
+            console.log(err);
+
             // Handle Error Here
-            console.error(err);
+            return [];
         }
     };
 
     async sendMessage(matches) {
+        console.log(matches);
         await this.client.login(process.env.TOKEN)
 
         matches.forEach((element) => {
@@ -80,8 +83,9 @@ class MatchThread {
     }
 
     isWhiteListed(homeTeam, awayteam) {
+        console.log(homeTeam, awayteam)
         for (let whiteListedTeam of this.whiteListedTeamNames) {
-            if (this.whiteListedTeamNames.includes(homeTeam) || this.whiteListedTeamNames.includes(awayteam)) {
+            if (homeTeam.includes(whiteListedTeam) || awayteam.includes(whiteListedTeam)) {
                 return true;
             }
         }
