@@ -11,9 +11,26 @@ class PredictIntent {
     constructor() {
         this.footballDataApi = new FootballDataApi();
         this.dayjs = bootstrap.dayjs
+        this.numberOfRetries = 0;
+        this.maxRetries = process.env.MAX_RETRIES
     }
 
-    async predict(message) {
+    predict(message) {
+        try {
+            return this.getMessage(message)
+        } catch (e) {
+            this.numberOfRetries += 1;
+            if (this.numberOfRetries <= this.maxRetries) {
+                setTimeout(() => {
+                    return this.getMessage(message)
+                }, 60000);
+            }
+        }
+
+    }
+
+
+    async getMessage(message) {
         const projectId = process.env.PROJECT_ID
         // A unique identifier for the given session
         const sessionId = uuid.v4();
@@ -46,8 +63,8 @@ class PredictIntent {
         let response = result.fulfillmentText;
 
         return this.getPhraseByIntent(intent, response, score);
-    }
 
+    }
 
     getPhraseByIntent(intent, response, score) {
         if (!response || score <= 0.6) {
@@ -86,24 +103,20 @@ class PredictIntent {
             }
         });
 
-        try {
-            let from = this.dayjs(new Date()).format('YYYY-MM-DD');
-            let to = this.dayjs(new Date()).add(20, 'day').format('YYYY-MM-DD');
-            let response = await this.footballDataApi.fetchTeamMatches(from, to, id);
+        let from = this.dayjs(new Date()).format('YYYY-MM-DD');
+        let to = this.dayjs(new Date()).add(20, 'day').format('YYYY-MM-DD');
+        let response = await this.footballDataApi.fetchTeamMatches(from, to, id);
 
-            if ('matches' in response) {
-                for (let value of response.matches) {
-                    if (this.dayjs(new Date).isBefore(this.dayjs(value.utcDate))) {
-                        let formattedGameDate = this.dayjs(value.utcDate).format('DD-MM HH:mm');
-                        return `O próximo do jogo do ${teamName} é: \n${value.homeTeam.name} vs ${value.awayTeam.name} - ${formattedGameDate}`;
-                    }
+        if ('matches' in response) {
+            for (let value of response.matches) {
+                if (this.dayjs(new Date).isBefore(this.dayjs(value.utcDate))) {
+                    let formattedGameDate = this.dayjs(value.utcDate).format('DD-MM HH:mm');
+                    return `O próximo do jogo do ${teamName} é: \n${value.homeTeam.name} vs ${value.awayTeam.name} - ${formattedGameDate}`;
                 }
             }
-            return 'Não encontrei nenhum jogo';
-        } catch (e) {
-            console.log(e);
-            return 'Ups foi com os porcos, reporta ao k3bra';
         }
+        return 'Não encontrei nenhum jogo';
+
     }
 }
 

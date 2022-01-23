@@ -4,9 +4,9 @@ require('dotenv');
 
 class MatchThread {
 
-    constructor() {
+    constructor(client) {
         this.dayjs = bootstrap.dayjs;
-        this.client = bootstrap.client;
+        this.client = client;
         this.cache = bootstrap.myCache;
 
         this.numberOfRetries = 0;
@@ -42,6 +42,7 @@ class MatchThread {
             this.numberOfRetries += 1;
             if (this.numberOfRetries <= this.maxRetries) {
                 setTimeout(() => {
+                    console.log('trying again');
                     this.send()
                 }, 60000);
             }
@@ -60,9 +61,6 @@ class MatchThread {
     };
 
     async sendMessage(matches) {
-        console.log(matches);
-        await this.client.login(process.env.TOKEN)
-
         matches.forEach((element) => {
             let gameDate = this.dayjs(element.utcDate);
             let fromDate = this.dayjs(new Date()).subtract(10, 'minutes');
@@ -85,7 +83,6 @@ class MatchThread {
     }
 
     isWhiteListed(homeTeam, awayteam) {
-        console.log(homeTeam, awayteam)
         for (let whiteListedTeam of this.whiteListedTeamNames) {
             if (homeTeam.includes(whiteListedTeam) || awayteam.includes(whiteListedTeam)) {
                 return true;
