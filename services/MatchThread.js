@@ -9,6 +9,10 @@ class MatchThread {
         this.client = bootstrap.client;
         this.cache = bootstrap.myCache;
 
+        this.numberOfRetries = 0;
+
+        this.maxRetries = process.env.MAX_RETRIES
+
         this.whiteListedTeamNames = [
             'Porto',
             'Benfica',
@@ -28,33 +32,31 @@ class MatchThread {
 
     send() {
 
-        this.fetchMatches().then((response) => {
-            try {
+        try {
+            this.fetchMatches().then((response) => {
                 if ('matches' in response) {
                     this.sendMessage(response.matches);
                 }
-            } catch (err) {
-                console.log(err)
+            })
+        } catch (e) {
+            this.numberOfRetries += 1;
+            if (this.numberOfRetries <= this.maxRetries) {
+                setTimeout(() => {
+                    this.send()
+                }, 60000);
             }
-        });
+        }
     }
 
     fetchMatches = async () => {
-        try {
-            let footballDataApi = new FootballDataApi();
-            let today = this.dayjs(new Date()).format('YYYY-MM-DD');
-            const resp = await footballDataApi.fetchMatches(today, today);
+        let footballDataApi = new FootballDataApi();
+        let today = this.dayjs(new Date()).format('YYYY-MM-DD');
+        const resp = await footballDataApi.fetchMatches(today, today);
 
-            if (resp === undefined) {
-                return [];
-            }
-            return resp;
-        } catch (err) {
-            console.log(err);
-
-            // Handle Error Here
+        if (resp === undefined) {
             return [];
         }
+        return resp;
     };
 
     async sendMessage(matches) {
