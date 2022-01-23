@@ -8,6 +8,22 @@ class MatchThread {
         this.dayjs = bootstrap.dayjs;
         this.client = bootstrap.client;
         this.cache = bootstrap.myCache;
+
+        this.whiteListedTeamNames = [
+            'Porto',
+            'Benfica',
+            'Sporting Clube de Portugal',
+            'Juventus',
+            'Manchester',
+            'City',
+            'Liverpool FC',
+            'Roma',
+            'Wolverhampton',
+            'Braga',
+            'Barcelona',
+            'Chelsea',
+            'Inter',
+        ]
     }
 
     send() {
@@ -47,7 +63,9 @@ class MatchThread {
             let fromDate = this.dayjs(new Date()).subtract(10, 'minutes');
             let toDate = this.dayjs(new Date()).add(1, 'hour');
 
-            if (this.cache.get(element.id) === undefined && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)) {
+            this.isWhiteListed(element.homeTeam.name, element.awayTeam.name);
+
+            if (this.isWhiteListed(element.homeTeam.name, element.awayTeam.name) && this.cache.get(element.id) === undefined && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)) {
                 let formattedGameDate = this.dayjs(element.utcDate).format('DD-MM-YYYY HH:mm');
                 let message = `${element.competition.name}: ${element.homeTeam.name} vs ${element.awayTeam.name} - ${formattedGameDate}`
 
@@ -60,6 +78,15 @@ class MatchThread {
         });
     }
 
+    isWhiteListed(homeTeam, awayteam) {
+        for (let whiteListedTeam of this.whiteListedTeamNames) {
+            if (this.whiteListedTeamNames.includes(homeTeam) || this.whiteListedTeamNames.includes(awayteam)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
 
 module.exports = MatchThread

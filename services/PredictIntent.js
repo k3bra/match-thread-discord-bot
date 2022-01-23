@@ -78,9 +78,7 @@ class PredictIntent {
         }
 
         let bestMatchName = bestMatch.bestMatch.target;
-
         let id = 0;
-
 
         teams.forEach((value, index) => {
             if (value.name === bestMatchName) {
