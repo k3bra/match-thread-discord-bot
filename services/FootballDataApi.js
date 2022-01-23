@@ -24,10 +24,9 @@ class FootballDataApi {
     }
 
 
-    async fetchMatches() {
+    async fetchMatches(from, to) {
         try {
-            let today = this.dayjs(new Date()).format('YYYY-MM-DD');
-            const resp = await this.axiosInstance.get('v2/matches', {params: {dateFrom: today, dateTo: today}});
+            const resp = await this.axiosInstance.get('v2/matches', {params: {dateFrom: from, dateTo: to}});
 
             if (resp.data === undefined) {
                 return [];

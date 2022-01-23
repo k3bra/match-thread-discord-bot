@@ -1,11 +1,11 @@
 const bootstrap = require('../bootstrap');
+const FootballDataApi = require('./FootballDataApi');
 require('dotenv');
 
 class MatchThread {
 
     constructor() {
         this.dayjs = bootstrap.dayjs;
-        this.axiosInstance = bootstrap.axiosInstance;
         this.client = bootstrap.client;
         this.cache = bootstrap.myCache;
     }
@@ -24,8 +24,9 @@ class MatchThread {
 
     fetchMatches = async () => {
         try {
+            let footballDataApi = new FootballDataApi();
             let today = this.dayjs(new Date()).format('YYYY-MM-DD');
-            const resp = await this.axiosInstance.get('v2/matches', {params: {dateFrom: today, dateTo: today}});
+            const resp = await footballDataApi.fetchMatches(today, today);
 
             if (resp.data === undefined) {
                 return [];

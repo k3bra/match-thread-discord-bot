@@ -9,7 +9,6 @@ require('dayjs/locale/pt')
 class PredictIntent {
 
     constructor() {
-
         this.footballDataApi = new FootballDataApi();
         this.dayjs = bootstrap.dayjs
     }
@@ -51,8 +50,6 @@ class PredictIntent {
 
 
     getPhraseByIntent(intent, response, score) {
-
-
         if (!response || score <= 0.6) {
             return 'Ups não percebi um caralho.';
         }
@@ -62,7 +59,6 @@ class PredictIntent {
         }
 
         return response;
-
     }
 
     async getNextTeamGame(teamName) {
@@ -93,10 +89,8 @@ class PredictIntent {
         });
 
         try {
-
             let from = this.dayjs(new Date()).format('YYYY-MM-DD');
             let to = this.dayjs(new Date()).add(20, 'day').format('YYYY-MM-DD');
-
             let response = await this.footballDataApi.fetchTeamMatches(from, to, id);
 
             if ('matches' in response) {
@@ -106,7 +100,6 @@ class PredictIntent {
                         return `O próximo do jogo do ${teamName} é: \n${value.homeTeam.name} vs ${value.awayTeam.name} - ${formattedGameDate}`;
                     }
                 }
-
             }
             return 'Não encontrei nenhum jogo';
         } catch (e) {
