@@ -1,9 +1,9 @@
 require('dotenv').config();
 
 const Discord = require("discord.js");
-const MatchThread = require("./MatchThread");
-const NewspapersFrontPage = require("./NewspapersFrontPage");
-const PredictIntent = require("./PredictIntent");
+const MatchThread = require("./services/MatchThread");
+const NewspapersFrontPage = require("./services/NewspapersFrontPage");
+const PredictIntent = require("./services/PredictIntent");
 const client = new Discord.Client({intents: ["GUILDS", "GUILD_MESSAGES"]});
 const CronJob = require('cron').CronJob;
 

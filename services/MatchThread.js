@@ -1,4 +1,4 @@
-const bootstrap = require('./bootstrap');
+const bootstrap = require('../bootstrap');
 require('dotenv');
 
 class MatchThread {

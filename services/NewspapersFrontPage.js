@@ -2,7 +2,7 @@ require('dotenv');
 
 const jsdom = require("jsdom");
 const {JSDOM} = jsdom;
-const bootstrap = require('./bootstrap');
+const bootstrap = require('../bootstrap');
 
 
 class NewspapersFrontPage {
