@@ -63,9 +63,10 @@ class MatchThread {
             let fromDate = this.dayjs(new Date()).subtract(10, 'minutes');
             let toDate = this.dayjs(new Date()).add(1, 'hour');
 
-            this.isWhiteListed(element.homeTeam.name, element.awayTeam.name);
-
-            if (this.isWhiteListed(element.homeTeam.name, element.awayTeam.name) && this.cache.get(element.id) === undefined && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)) {
+            if (this.isWhiteListed(element.homeTeam.name, element.awayTeam.name)
+                && this.cache.get(element.id) === undefined
+                && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)
+            ) {
                 let formattedGameDate = this.dayjs(element.utcDate).format('DD-MM-YYYY HH:mm');
                 let message = `${element.competition.name}: ${element.homeTeam.name} vs ${element.awayTeam.name} - ${formattedGameDate}`
 

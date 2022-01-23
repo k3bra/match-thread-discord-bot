@@ -10,13 +10,25 @@ const CronJob = require('cron').CronJob;
 client.login(process.env.TOKEN)
 
 client.on("message", msg => {
-    if (msg.author.bot === false && msg.content.startsWith("k3brot")) {
-        let predictIntent = new PredictIntent();
-        let message = msg.content.replace("k3brot", "");
+    if (msg.author.bot === true) {
+        return;
+    }
 
-        predictIntent.predict(message).then(response => msg.reply(response));
+    let predictIntent = new PredictIntent();
+
+    if (msg.mentions.has(client.user)) {
+        let botMention = `<@!${client.user.id}>`;
+        let message = msg.content.replace(botMention, "");
+        predictIntent.predict(message.trim()).then(response => msg.reply(response));
+    }
+
+    if (msg.content.startsWith("k3brot")) {
+        let message = msg.content.replace("k3brot", "");
+        predictIntent.predict(message.trim()).then(response => msg.reply(response));
     }
 })
+
+
 
 client.on("message", msg => {
     if (msg.content === "ping") {
