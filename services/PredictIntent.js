@@ -4,6 +4,9 @@ const uuid = require("uuid");
 const dialogflow = require("@google-cloud/dialogflow");
 const FootballDataApi = require('./FootballDataApi');
 const bootstrap = require('../bootstrap');
+const jsdom = require("jsdom");
+const {JSDOM} = jsdom;
+
 require('dayjs/locale/pt')
 
 class PredictIntent {
@@ -28,7 +31,6 @@ class PredictIntent {
         }
 
     }
-
 
     async getMessage(message) {
         const projectId = process.env.PROJECT_ID
@@ -67,12 +69,17 @@ class PredictIntent {
     }
 
     getPhraseByIntent(intent, response, score) {
-        if (!response || score <= 0.6) {
+
+        if (!response || score <= 0.4) {
             return 'Ups não percebi um caralho.';
         }
 
         if (intent === "next.team.game") {
             return this.getNextTeamGame(response);
+        }
+
+        if (intent === "match.streams") {
+            return this.findStream(response);
         }
 
         return response;
@@ -117,6 +124,35 @@ class PredictIntent {
         }
         return 'Não encontrei nenhum jogo';
 
+    }
+
+    async findStream(team) {
+        let url = 'http://www.redditsoccerstreams.tv/';
+        let stringSimilarity = require("string-similarity");
+        let dom = await JSDOM.fromURL(url);
+        let serialized = dom.serialize();
+        let jsom = new JSDOM(serialized);
+        let streams = jsom.window.document.querySelectorAll("tr");
+
+        for (let streamChild of streams) {
+            let textGame = streamChild.querySelector('.et4').textContent;
+            let gameArray = textGame.split('vs');
+            let homeTeamSimilarity = stringSimilarity.compareTwoStrings(team, gameArray[0]);
+
+            let awayTeamSimilarity = '';
+            if (gameArray.length >= 2 ) {
+                awayTeamSimilarity = stringSimilarity.compareTwoStrings(team, gameArray[1]);
+            }
+
+            if (homeTeamSimilarity >= 0.7 || awayTeamSimilarity >= 0.7) {
+                let stream = streamChild.querySelector('.et5 a').href;
+                if (stream) {
+                    return `Encontrei este stream:\n${stream}`;
+                }
+            }
+        }
+
+        return 'Could not find any stream';
     }
 }
 

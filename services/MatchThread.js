@@ -31,7 +31,6 @@ class MatchThread {
     }
 
     send() {
-
         try {
             this.fetchMatches().then((response) => {
                 if ('matches' in response) {
@@ -78,7 +77,6 @@ class MatchThread {
                 let channel = this.client.channels.cache.get(process.env.CHANNEL_ID);
                 channel.send(message);
             }
-
         });
     }
 
