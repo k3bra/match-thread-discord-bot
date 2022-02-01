@@ -39,7 +39,7 @@ async function start() {
     })
 
     let matchThread = new CronJob(
-        '32 * * * *',
+        '*/15 * * * *',
         () => {
             let matchThread = new MatchThread(client);
             matchThread.send();

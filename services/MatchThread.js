@@ -19,7 +19,7 @@ class MatchThread {
             'Sporting Clube de Portugal',
             'Juventus',
             'Manchester',
-            'City',
+            'Manchester City',
             'Liverpool FC',
             'Roma',
             'Wolverhampton',
@@ -62,8 +62,8 @@ class MatchThread {
     async sendMessage(matches) {
         matches.forEach((element) => {
             let gameDate = this.dayjs(element.utcDate);
-            let fromDate = this.dayjs(new Date()).subtract(10, 'minutes');
-            let toDate = this.dayjs(new Date()).add(1, 'hour');
+            let fromDate = this.dayjs(new Date()).subtract(4, 'hour');
+            let toDate = this.dayjs(new Date()).add(3, 'hour');
 
             if (this.isWhiteListed(element.homeTeam.name, element.awayTeam.name)
                 && this.cache.get(element.id) === undefined
