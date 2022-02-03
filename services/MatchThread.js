@@ -9,10 +9,6 @@ class MatchThread {
         this.client = client;
         this.cache = bootstrap.myCache;
 
-        this.numberOfRetries = 0;
-
-        this.maxRetries = process.env.MAX_RETRIES
-
         this.whiteListedTeamNames = [
             'Porto',
             'Benfica',
@@ -27,6 +23,19 @@ class MatchThread {
             'Barcelona',
             'Chelsea',
             'Inter',
+            'Gil Vicente',
+            'Paços de Ferreira',
+            'Estoril Praia',
+            'Arouca',
+            'Tondela',
+            'Santa Clara',
+            'Famalicão',
+            'Vitória',
+            'Belenenses',
+            'Marítimo',
+            'Vizela',
+            'Portimonense',
+            'Moreirense',
         ]
     }
 
@@ -38,13 +47,7 @@ class MatchThread {
                 }
             })
         } catch (e) {
-            this.numberOfRetries += 1;
-            if (this.numberOfRetries <= this.maxRetries) {
-                setTimeout(() => {
-                    console.log('trying again');
-                    this.send()
-                }, 60000);
-            }
+            console.log(e);
         }
     }
 
@@ -72,7 +75,7 @@ class MatchThread {
                 let formattedGameDate = this.dayjs(element.utcDate).format('DD-MM-YYYY HH:mm');
                 let message = `${element.competition.name}: ${element.homeTeam.name} vs ${element.awayTeam.name} - ${formattedGameDate}`
 
-                this.cache.set(element.id, {game: message}, 10000);
+                this.cache.set(element.id, {game: message}, 50000);
 
                 let channel = this.client.channels.cache.get(process.env.CHANNEL_ID);
                 channel.send(message);
