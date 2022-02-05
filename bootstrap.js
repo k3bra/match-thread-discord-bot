@@ -8,7 +8,7 @@ const axios = require("axios");
 const dayjs = require("dayjs");
 const axiosInstance = axios.create({
     baseURL: process.env.FOOTBALL_DATA_URL,
-    timeout: 1000,
+    timeout: 10000,
     headers: {'X-Auth-Token': process.env.FOOTBALL_DATA_API_KEY}
 })
 
