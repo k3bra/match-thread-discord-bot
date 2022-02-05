@@ -41,9 +41,10 @@ class MatchThread {
 
     send() {
         try {
+            console.log('trying to fetch games')
             this.fetchMatches().then((response) => {
                 if ('matches' in response) {
-                    this.sendMessage(response.matches);
+                    this.sendMessage(response.matches).then(r => console.log('done'));
                 }
             })
         } catch (e) {
@@ -68,6 +69,8 @@ class MatchThread {
             let fromDate = this.dayjs(new Date()).subtract(4, 'hour');
             let toDate = this.dayjs(new Date()).add(3, 'hour');
 
+            console.log('is In cache?');
+            console.log(this.cache.get(element.id));
             if (this.isWhiteListed(element.homeTeam.name, element.awayTeam.name)
                 && this.cache.get(element.id) === undefined
                 && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)
