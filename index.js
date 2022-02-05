@@ -41,8 +41,18 @@ async function start() {
     let matchThread = new CronJob(
         '*/5 * * * *',
         () => {
+            console.log('trying to create thread');
             let matchThread = new MatchThread(client);
             matchThread.send();
+        },
+        null,
+        true
+    );
+
+    let test = new CronJob(
+        '* * * * *',
+        () => {
+            console.log('testing')
         },
         null,
         true
@@ -60,6 +70,7 @@ async function start() {
 
     matchThread.start();
     jobNewsPaper.start();
+    test.start();
 }
 
 
