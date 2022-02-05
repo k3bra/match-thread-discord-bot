@@ -78,6 +78,7 @@ class PredictIntent {
             return this.getNextTeamGame(response);
         }
 
+        console.log(intent);
         if (intent === "match.streams") {
             return this.findStream(response);
         }
@@ -127,12 +128,13 @@ class PredictIntent {
     }
 
     async findStream(team) {
+
         let url = 'http://www.redditsoccerstreams.tv/';
         let stringSimilarity = require("string-similarity");
         let dom = await JSDOM.fromURL(url);
         let serialized = dom.serialize();
         let jsom = new JSDOM(serialized);
-        let streams = jsom.window.document.querySelectorAll("tr");
+        let streams = jsom.window.document.querySelectorAll("tbody tr");
 
         for (let streamChild of streams) {
             let textGame = streamChild.querySelector('.et4').textContent;
@@ -143,8 +145,7 @@ class PredictIntent {
             if (gameArray.length >= 2 ) {
                 awayTeamSimilarity = stringSimilarity.compareTwoStrings(team, gameArray[1]);
             }
-
-            if (homeTeamSimilarity >= 0.7 || awayTeamSimilarity >= 0.7) {
+            if (homeTeamSimilarity >= 0.4 || awayTeamSimilarity >= 0.4) {
                 let stream = streamChild.querySelector('.et5 a').href;
                 if (stream) {
                     return `Encontrei este stream:\n${stream}`;
@@ -152,7 +153,7 @@ class PredictIntent {
             }
         }
 
-        return 'Could not find any stream';
+        return 'Não consegui encontrar nenhum stream';
     }
 }
 
