@@ -33,38 +33,45 @@ class PredictIntent {
     }
 
     async getMessage(message) {
-        const projectId = process.env.PROJECT_ID
-        // A unique identifier for the given session
-        const sessionId = uuid.v4();
+        try {
 
-        // Create a new session
-        const sessionClient = new dialogflow.SessionsClient();
-        const sessionPath = sessionClient.projectAgentSessionPath(
-            projectId,
-            sessionId
-        );
+            const projectId = process.env.PROJECT_ID
+            // A unique identifier for the given session
+            const sessionId = uuid.v4();
 
-        // The text query request.
-        const request = {
-            session: sessionPath,
-            queryInput: {
-                text: {
-                    // The query to send to the dialogflow agent
-                    text: message,
-                    // The language used by the client (en-US)
-                    languageCode: 'pt-PT',
+            // Create a new session
+            const sessionClient = new dialogflow.SessionsClient();
+            const sessionPath = sessionClient.projectAgentSessionPath(
+              projectId,
+              sessionId
+            );
+
+            // The text query request.
+            const request = {
+                session: sessionPath,
+                queryInput: {
+                    text: {
+                        // The query to send to the dialogflow agent
+                        text: message,
+                        // The language used by the client (en-US)
+                        languageCode: 'pt-PT',
+                    },
                 },
-            },
-        };
+            };
 
-        // Send request and log result
-        const responses = await sessionClient.detectIntent(request);
-        const result = responses[0].queryResult;
-        let intent = result.intent ? result.intent.displayName : '';
-        let score = result.intentDetectionConfidence;
-        let response = result.fulfillmentText;
+            // Send request and log result
+            const responses = await sessionClient.detectIntent(request);
+            const result = responses[0].queryResult;
+            let intent = result.intent ? result.intent.displayName : '';
+            let score = result.intentDetectionConfidence;
+            let response = result.fulfillmentText;
 
-        return this.getPhraseByIntent(intent, response, score);
+            return this.getPhraseByIntent(intent, response, score);
+        } catch (e) {
+
+            return 'Dialog Flow: ' + e.message;
+        }
+
 
     }
 
