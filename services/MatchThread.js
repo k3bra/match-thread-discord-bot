@@ -41,7 +41,6 @@ class MatchThread {
 
     send() {
         try {
-            console.log('trying to fetch games')
             this.fetchMatches().then((response) => {
                 if ('matches' in response) {
                     this.sendMessage(response.matches).then(r => console.log('done'));
@@ -54,8 +53,8 @@ class MatchThread {
 
     fetchMatches = async () => {
         let footballDataApi = new FootballDataApi();
-        let today = this.dayjs(new Date()).format('YYYY-MM-DD');
-        const resp = await footballDataApi.fetchMatches(today, today);
+        let date = this.dayjs(new Date()).format('YYYY-MM-DD');
+        const resp = await footballDataApi.fetchMatches(date);
 
         if (resp === undefined) {
             return [];

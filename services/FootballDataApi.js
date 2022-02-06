@@ -24,9 +24,9 @@ class FootballDataApi {
     }
 
 
-    async fetchMatches(from, to) {
+    async fetchMatches(date) {
         try {
-            const resp = await this.axiosInstance.get('v2/matches', {params: {dateFrom: from, dateTo: to}});
+            const resp = await this.axiosInstance.get('v2/matches', {params: {utcDate: date}});
 
             if (resp.data === undefined) {
                 return [];
