@@ -1,5 +1,6 @@
 const bootstrap = require('../bootstrap');
 const FootballDataApi = require('./FootballDataApi');
+require('dayjs/locale/pt')
 require('dotenv');
 
 class MatchThread {
@@ -65,8 +66,8 @@ class MatchThread {
     async sendMessage(matches) {
         matches.forEach((element) => {
             let gameDate = this.dayjs(element.utcDate);
-            let fromDate = this.dayjs(new Date()).subtract(4, 'hour');
-            let toDate = this.dayjs(new Date()).add(3, 'hour');
+            let fromDate = this.dayjs(new Date()).subtract(2, 'hour');
+            let toDate = this.dayjs(new Date()).add(2, 'hour');
 
             console.log('is In cache?');
             console.log(this.cache.get(element.id));
@@ -74,7 +75,7 @@ class MatchThread {
                 && this.cache.get(element.id) === undefined
                 && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)
             ) {
-                let formattedGameDate = this.dayjs(element.utcDate).format('DD-MM-YYYY HH:mm');
+                let formattedGameDate = this.dayjs(element.utcDate).add(1, 'hour').format('DD-MM-YYYY HH:mm');
                 let message = `${element.competition.name}: ${element.homeTeam.name} vs ${element.awayTeam.name} - ${formattedGameDate}`
 
                 this.cache.set(element.id, {game: message}, 50000);

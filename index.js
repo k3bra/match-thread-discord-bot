@@ -59,7 +59,7 @@ async function start() {
     );
 
     let jobNewsPaper = new CronJob(
-        '0 9 * * *',
+        '0 8 * * *',
         () => {
             let newsPaper = new NewspapersFrontPage();
             newsPaper.send();
