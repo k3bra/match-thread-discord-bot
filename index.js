@@ -31,6 +31,7 @@ async function start() {
     })
 
     client.on("message", msg => {
+        console.log("Message ID");
         console.log(msg.channel.id);
 
         if (msg.content === "ping") {
