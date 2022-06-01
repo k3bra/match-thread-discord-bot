@@ -18,13 +18,7 @@ async function start() {
 
         let predictIntent = new PredictIntent();
 
-        if (msg.mentions.has(client.user)) {
-            let botMention = `<@!${client.user.id}>`;
-            let message = msg.content.replace(botMention, "");
-            predictIntent.predict(message.trim()).then(response => msg.reply(response));
-        }
-
-        if (msg.content.startsWith("k3brot")) {
+        if (msg.content.trim().startsWith("k3brot")) {
             let message = msg.content.replace("k3brot", "");
             predictIntent.predict(message.trim()).then(response => msg.reply(response));
         }

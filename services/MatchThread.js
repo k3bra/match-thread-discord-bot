@@ -60,7 +60,34 @@ class MatchThread {
         if (resp === undefined) {
             return [];
         }
-        return resp;
+
+        const PRIMEIRA_LIGA = 2017;
+        const PREMIER_LEAGUE = 2021;
+        const BUNDESLIGA = 2012;
+        const PRIMERA_DIVISION = 2224;
+        const SERIE_A = 2019;
+        const FOOTBALL_LEAGUE_CUP = 2139;
+        const FA_CUP = 2055;
+        const TACA_PORTUGAL = 2098;
+        const SUPER_TACA = 2097;
+
+        const competitions = [
+            PRIMEIRA_LIGA,
+            PREMIER_LEAGUE,
+            BUNDESLIGA,
+            PRIMERA_DIVISION,
+            SERIE_A,
+            FOOTBALL_LEAGUE_CUP,
+            FA_CUP,
+            TACA_PORTUGAL,
+            SUPER_TACA,
+        ];
+
+        const filtered = resp.matches.filter(function (value) {
+            return competitions.includes(value.competition.id);
+        });
+
+        return filtered;
     };
 
     async sendMessage(matches) {
