@@ -43,9 +43,7 @@ class MatchThread {
     send() {
         try {
             this.fetchMatches().then((response) => {
-                if ('matches' in response) {
-                    this.sendMessage(response.matches).then(r => console.log('done'));
-                }
+                this.sendMessage(response).then(r => console.log('done'));
             })
         } catch (e) {
             console.log(e);
@@ -69,7 +67,10 @@ class MatchThread {
         const FOOTBALL_LEAGUE_CUP = 2139;
         const FA_CUP = 2055;
         const TACA_PORTUGAL = 2098;
-        const SUPER_TACA = 2097;
+        const SUPER_TACA = 2152;
+        const CHAMPIONS = 2001;
+        const CONFERENCE = 2154;
+        const EUROPA_LEAGUE = 2146;
 
         const competitions = [
             PRIMEIRA_LIGA,
@@ -81,6 +82,9 @@ class MatchThread {
             FA_CUP,
             TACA_PORTUGAL,
             SUPER_TACA,
+            CHAMPIONS,
+            CONFERENCE,
+            EUROPA_LEAGUE,
         ];
 
         const filtered = resp.matches.filter(function (value) {
@@ -96,8 +100,6 @@ class MatchThread {
             let fromDate = this.dayjs(new Date()).subtract(2, 'hour');
             let toDate = this.dayjs(new Date()).add(2, 'hour');
 
-            console.log('is In cache?');
-            console.log(this.cache.get(element.id));
             if (this.isWhiteListed(element.homeTeam.name, element.awayTeam.name)
                 && this.cache.get(element.id) === undefined
                 && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)
