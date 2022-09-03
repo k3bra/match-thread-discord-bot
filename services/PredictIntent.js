@@ -135,32 +135,7 @@ class PredictIntent {
     }
 
     async findStream(team) {
-
-        let url = 'http://www.redditsoccerstreams.tv/';
-        let stringSimilarity = require("string-similarity");
-        let dom = await JSDOM.fromURL(url);
-        let serialized = dom.serialize();
-        let jsom = new JSDOM(serialized);
-        let streams = jsom.window.document.querySelectorAll("tbody tr");
-
-        for (let streamChild of streams) {
-            let textGame = streamChild.querySelector('.et4').textContent;
-            let gameArray = textGame.split('vs');
-            let homeTeamSimilarity = stringSimilarity.compareTwoStrings(team, gameArray[0]);
-
-            let awayTeamSimilarity = '';
-            if (gameArray.length >= 2 ) {
-                awayTeamSimilarity = stringSimilarity.compareTwoStrings(team, gameArray[1]);
-            }
-            if (homeTeamSimilarity >= 0.4 || awayTeamSimilarity >= 0.4) {
-                let stream = streamChild.querySelector('.et5 a').href;
-                if (stream) {
-                    return `Encontrei este stream:\n${stream}`;
-                }
-            }
-        }
-
-        return 'Não consegui encontrar nenhum stream';
+        return `Procura aqui  \n https://ustream.click/search/PT \n https://dzeko11.net/`;
     }
 }
 
