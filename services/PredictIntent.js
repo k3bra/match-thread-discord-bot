@@ -35,6 +35,9 @@ class PredictIntent {
     async getMessage(message) {
         try {
 
+            if (message.toLowerCase().includes('stream')) {
+                return this.findStream();
+             }
             const projectId = process.env.PROJECT_ID
             // A unique identifier for the given session
             const sessionId = uuid.v4();
@@ -85,9 +88,8 @@ class PredictIntent {
             return this.getNextTeamGame(response);
         }
 
-        console.log(intent);
         if (intent === "match.streams") {
-            return this.findStream(response);
+            return this.findStream();
         }
 
         return response;
@@ -134,7 +136,7 @@ class PredictIntent {
 
     }
 
-    async findStream(team) {
+    async findStream() {
         return `Procura aqui num destes  \n https://ustream.click/search/PT \n https://dzeko11.net/`;
     }
 }
