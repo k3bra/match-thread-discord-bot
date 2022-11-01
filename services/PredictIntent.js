@@ -137,7 +137,7 @@ class PredictIntent {
     }
 
     async findStream() {
-        return `Procura aqui num destes  \n https://ustream.click/search/PT \n https://dzeko11.net/`;
+        return `Procura aqui num destes  \n https://ustream.click/search/PT \n https://dzeko11.net/ \n https://soccerstreams100.io/ \n https://letmegooglethat.com/?q=reddit+soccer+streams`;
     }
 }
 

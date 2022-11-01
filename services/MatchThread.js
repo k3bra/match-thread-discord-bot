@@ -104,7 +104,7 @@ class MatchThread {
                 && this.cache.get(element.id) === undefined
                 && gameDate.isAfter(fromDate) && gameDate.isBefore(toDate)
             ) {
-                let formattedGameDate = this.dayjs(element.utcDate).add(1, 'hour').format('DD-MM-YYYY HH:mm');
+                let formattedGameDate = this.dayjs(element.utcDate).add(0, 'hour').format('DD-MM-YYYY HH:mm');
                 let message = `${element.competition.name}: ${element.homeTeam.name} vs ${element.awayTeam.name} - ${formattedGameDate}`
 
                 this.cache.set(element.id, {game: message}, 50000);
